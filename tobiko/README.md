@@ -2,37 +2,43 @@
 ### node.js static site generator using grunt
 
 ## How to use
-This generator app is driven by [grunt.js](http://gruntjs.com), which means that it is highly customizable to suit your developer needs. Be sure to take a look at [Gruntfile.js](https://github.com/tnguyen14/tobiko/blob/master/Gruntfile.js).
+This generator app is driven by [grunt.js](http://gruntjs.com), which means that it is highly customizable to suit your developer needs. An example of how this generator can be seen at [tobiko-example](https://github.com/tnguyen14/tobiko-example).
 
-### Install
-1. Run `git clone` to download the app.
-2. Run `npm install`
-3. Run `bower install`
-
-### Getting started
-1. To get the basic site, copy `example` folder to root folder.
-
-```sh
-# from the root folder of your project
-$ cp example/ ./
-```
-
-2. Run `grunt` to generate preview, build and deploy your website.
-- By default, running `grunt` will run `grunt dev`.
-- Other grunt options include `grunt build` and `grunt deploy`
-
-### config.json
-High level, site-wide configurations can be specified in `config.json`.
+1. To get a basic site
+    ```sh
+    git clone git@github.com:tnguyen14/tobiko-example.git
+    ```
+2. Install tobiko as a subtree.
+    ```sh
+    git subtree add --prefix=tobiko --squash git@github.com:tnguyen14/tobiko.git master
+    # create new tobiko config
+    cp tobshiko/config.sample.json tobiko/config.json
+    ```
+3. Install bower dependencies. If you don't have bower, [install it first](http://bower.io/).
+    ```sh
+    bower install
+    ```
+4. Install npm dependencies. If you don't have npm or node, [install it first](http://nodejs.org).
+    ```sh
+    npm install
+    ```
+5. Write code! If you don't have `grunt-cli`, install that first with `npm install -g grunt-cli`.
+    ```sh
+    grunt
+    ```
 
 ## Contents
-*This section explains the inner working of the [`import_contents` Grunt task](https://github.com/tnguyen14/tobiko/blob/master/tasks/grunt-import-contents.js).*
+*This section explains the inner working of the [`import_contents` task](https://github.com/tnguyen14/tobiko/blob/master/tasks/grunt-import-contents.js).*
 
-By default, the site contents will be in the `contents` folder. This option could be changed in `Gruntfile.js`, under `import_contents` task.
+By default, the site content will be in the `contents` folder. This option could be changed in tobiko's `config.json`, under `contentDir` property.
 
 Content can be written in `json` and `markdown` with `yaml` [frontmatter](https://github.com/mojombo/jekyll/wiki/YAML-Front-Matter).
 
 All contents are written to `data.json` in the `build` directory.
 The structure of the `contents` directory will be reflected in the final static directory.
+
+#### config.json
+High level, site-wide configurations can be specified in `config.json` in the root folder.
 
 #### Nesting
 In any directory, a file's sibling files and directories are available in the template to access. This is a convenient and structural way to store and organize data, instead of dumping everything into a JSON file.
@@ -59,7 +65,7 @@ And `cars` are also available as
 ```html
   <ul>
   {{#each cars}}
-  	<li><h2>{{title}}</h2></li>
+    <li><h2>{{title}}</h2></li>
   {{/each}}
   </ul>
 
@@ -74,11 +80,11 @@ Each page specifies a template that it uses, either as a JSON property or YAML f
 Example:
 ```js
 {
-	template: "index.hbs"
+  template: "index.hbs"
 }
 ```
 
-If a file doesn't specify a template, its data is available to be used in the ContentTree but will not be rendered.
+*If a file doesn't specify a template, its data is available to be used in the ContentTree but will not be rendered.
 
 #### filepath
 By default, the path of the page is its directory structure.
@@ -88,7 +94,7 @@ However, each page's path can be overwritten by a `filepath` property.
 Example:
 ```js
 {
-	filepath: "articles/archives/some-post.md"
+  filepath: "articles/archives/some-post.md"
 }
 ```
 
@@ -119,12 +125,12 @@ By default, a file without a `date` specified will have the `date` value of when
 See [momentjs](http://momentjs.com) for more information about the date format.
 
 ## Templates
-*This section explains the inner working of the [`handlebars_html` Grunt task](https://github.com/tnguyen14/tobiko/blob/master/tasks/grunt-handlebars-html.js).*
+*This section explains the inner working of the [`handlebars_html` task](https://github.com/tnguyen14/tobiko/blob/master/tasks/grunt-handlebars-html.js).*
 
 By default tobiko uses [Handlebars](http://handlebarsjs.com) as its templating engine. However, if you want to use a different templating engine, you can easily do so by plugging in a different `grunt` task that would compile your templating engine of choice.
 *Note: true to a static site generator, all compiled templates need to be in `.html` formats*
 
-Helpers and Partials are supported. They can be stored under `helpers` and `partials` directories under `templates`. These directory names of course can be changed in `Gruntfile.js`.
+Helpers and Partials are supported. They can be stored under `helpers` and `partials` directories under `templates`. These directory names of course can be changed in tobiko's `config.json`.
 
 Each page needs to specify its own template. This can be done with a JSON property
 ```js
@@ -136,27 +142,77 @@ A file's content is available in the template under the `content` variable. Othe
 
 ### Pagination and Archives
 A directory with a big number of posts could be configured to paginate. The paginated pages are called archives.
-The option for enabling pagination can be added in `Gruntfile.js` under `handlebars_html` task. For example:
+The option for enabling pagination can be added in tobiko's `config.json`. For example:
 ```js
-  handlebars_html: {
-    options : {
-      partialDir : 'templates/partials',
-      helperDir : 'templates/helpers',
-      paginate: [
-        {dir: 'articles', orderBy: 'date', postPerPage: 4, template: 'archive.hbs', title: 'Articles'}
-      ]
+  "paginate": [
+    {
+      "dir": "posts",
+      "postPerPage": 4,
+      "template": "archive.hbs",
+      "title": "Posts"
     }
-  }
+  ]
 ```
 Each object in the `paginate` option represents a directory to be paginated. The options for each directory are:
 * `dir`: (string) directory name
-* `orderby`: (number/ date) how to order the posts in the archives. Default to [date](#date)
+* `orderby`: (string) how to order the posts in the archives. Default to ['date'](#date)
 * `postPerPage`: (number) number of posts to be displayed per archive page
 * `template`: (string) the template used to display these archive pages
 * `title`: (string) title of these archive pages (this will be made available to use in template as `content.title`)
 
 #### Template
-The posts in each archive page is accessible in the template file under `content` property, similar to a regular file. See [example](https://github.com/tnguyen14/tobiko/blob/master/example/templates/archive.hbs).
+The `posts` in each archive page is accessible in the template file under `content` property, similar to a regular file. See [example](https://github.com/tnguyen14/tobiko-example/blob/master/example/templates/archive.hbs).
+
+## Grunt tasks
+Thanks to [grunt-load-config](https://github.com/firstandthird/load-grunt-config/), the grunt task configs are neatly organized under the [`config`](https://github.com/tnguyen14/tobiko/tree/master/config) directory.
+
+A few [tasks](https://github.com/tnguyen14/tobiko/blob/master/config/aliases.yaml) are made available below. The default is `dev`.
+1. `dev`: Running `grunt dev` does a few things:
+- processing the contents and build out the templates
+- minify images and create different resolutions of the same image for responsive use
+- compile sass and prefix it if necessary
+- create a connect server to render to content locally
+- [watch](https://github.com/tnguyen14/tobiko/blob/master/config/watch.js) for changes
+
+2. `build`: Running `grunt build` will prepare all the content (parse, build templates, create responsive images, mininfy them, compile sass and minify css) for deployment.
+3. `deploy`: `build` and deploy with `gh-pages`. See [deployment](#deployment) guide below.
+
+### Deployment
+The site can be deployed by default to [Github Pages](http://pages.github.com) using the [`grunt-gh-pages`](https://github.com/tschaub/grunt-gh-pages) task (more options can be found on that plugin page).
+
+It can be configured in `Gruntfile.js` as follows:
+
+```js
+  grunt.config.set('gh-pages', {
+    prod: {
+      options: {
+        base: '<%= buildPath %>',
+      },
+      src: ['**/*']
+    }
+  });
+```
+
+Optionally, you can also deploy your site to a server of your choice using the [`grunt-rsync`](https://github.com/jedrichards/grunt-rsync) plugin
+
+```js
+  // deploy via rsync
+  grunt.config.set('rsync', {
+    options: {
+      args: ["--verbose"],
+      src: "<%= buildPath %>/",
+      exclude: ['.git*', 'node_modules', '.sass-cache', 'Gruntfile.js', 'package.json', '.DS_Store', 'README.md', '.jshintrc'],
+      recursive: true,
+      syncDestIgnoreExcl: true
+    },
+    prod: {
+      options: {
+        dest: "/path/to/your/site",
+        host: "server_address"
+      }
+    }
+  });
+```
 
 ## Issues/ Requests
 Any issues, questions or feature requests could be created under [Github Issues](https://github.com/tnguyen14/tobiko/issues).

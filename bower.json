@@ -1,0 +1,16 @@
+{
+  "name": "tobiko-example",
+  "version": "0.0.1",
+  "authors": [
+    "Tri Nguyen <tri@tridnguyen.com>"
+  ],
+  "description": "Example project for tobiko",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

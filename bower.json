@@ -16,6 +16,7 @@
   "dependencies": {
     "requirejs": "~2.1.11",
     "jquery": "~2.1.0",
-    "almond": "~0.2.9"
+    "almond": "~0.2.9",
+    "requirejs-plugins": "~1.0.2"
   }
 }

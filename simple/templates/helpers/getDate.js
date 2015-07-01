@@ -3,10 +3,10 @@
 // @param {String|Object} a date string (http://momentjs.com/docs/#/parsing/string/) or momentjs date object
 // @return {String} the date string in the desired format
 
-var  moment = require('moment'),
-	_ = require('underscore');
+var  moment = require('moment');
+var _ = require('lodash');
 
-module.exports = function(formatStr, date) {
+module.exports = function (formatStr, date) {
 	var momentDate;
 	// A rather hacky way to test if the second argument is empty
 	if (_.isEmpty(date.data)) {
@@ -24,5 +24,5 @@ module.exports = function(formatStr, date) {
 			momentDate = date;
 		}
 	}
-	return momentDate.format(formatStr)
-}
+	return momentDate.format(formatStr);
+};

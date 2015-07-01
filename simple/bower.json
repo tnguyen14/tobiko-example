@@ -1,22 +1,17 @@
 {
-  "name": "tobiko-example",
-  "version": "0.0.1",
+  "name": "tobiko-example-simple",
+  "version": "1.0.0",
   "authors": [
     "Tri Nguyen <tri@tridnguyen.com>"
   ],
-  "description": "Example project for tobiko",
+  "description": "Simple example setup for tobiko",
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
-    "requirejs": "~2.1.11",
-    "jquery": "~2.1.0",
-    "almond": "~0.2.9",
-    "requirejs-plugins": "~1.0.2"
+    "jquery": "~2.1.4"
   }
 }

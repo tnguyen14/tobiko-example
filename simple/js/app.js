@@ -1,8 +1,12 @@
-define(function (require) {
-	var config = require('json!config.json'),
-		$ = require('jquery');
+var config = require('../config.json');
+var configDev = require('../config.dev.json');
+var $ = require('jquery');
+var _ = require('lodash');
 
-	$(document).ready(function(){
-		console.log('We\'re ready!');
-	});
+if (page.env === 'dev') {
+	_.extend(config, configDev);
+}
+
+$(document).ready(function(){
+	console.log('We\'re ready!');
 });

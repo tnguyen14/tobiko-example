@@ -9,6 +9,7 @@
   "author": "Tri Nguyen",
   "license": "MIT",
   "dependencies": {
+    "jquery": "^2.1.4",
     "lodash": "^3.10.0",
     "moment": "^2.10.3"
   },
@@ -31,14 +32,5 @@
     "grunt-tobiko": "^4.4.1",
     "load-grunt-config": "^0.17.1",
     "time-grunt": "^0.4.0"
-  },
-  "browserify": {
-    "transform": "browserify-shim"
-  },
-  "browser": {
-    "jquery": "./bower_components/jquery/dist/jquery.js"
-  },
-  "browserify-shim": {
-    "jquery": "$"
   }
 }

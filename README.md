@@ -11,3 +11,5 @@ See [tobiko](http://github.com/tnguyen14/tobiko)'s README for documentation.
 # clean up tobiko-example directory
 :; rm -rf tobiko-example
 ```
+
+To start working with the app, see [simple/readme](simple/README.md)

@@ -4,6 +4,8 @@
   "description": "Simple example setup for tobiko",
   "main": "index.js",
   "scripts": {
+	"start": "grunt dev",
+	"deploy": "grunt deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tri Nguyen",

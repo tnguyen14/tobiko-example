@@ -6,12 +6,16 @@
 - Run local watch task
 
   ```sh
+  :; npm start
+  # OR
   :; grunt # default to dev task
   ```
   
 - Deploy
 
   ```sh
+  :; npm run deploy
+  # OR
   :; grunt deploy
   ```
   
